@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سؤال مهم جداً</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --accent-color: #ffe66d;
+            --text-color: #2d3436;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Ambient floating shapes */
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            animation: float 20s infinite;
+            z-index: 0;
+        }
+
+        .shape:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            top: 60%;
+            left: 70%;
+            animation-delay: 5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-50px) rotate(180deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            background: var(--glass-bg);
+            padding: 4rem 3rem;
+            border-radius: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            /* slightly reduced for performance */
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            z-index: 10;
+            max-width: 90%;
+            width: 500px;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.45);
+        }
+
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 2.5rem;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: relative;
+            /* For button absolute positioning hacks if needed */
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        button:active {
+            transform: scale(0.95) !important;
+            /* Force scale down on click */
+        }
+
+        #yesBtn {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            color: white;
+            min-width: 120px;
+        }
+
+        #yesBtn:hover {
+            box-shadow: 0 8px 25px rgba(56, 239, 125, 0.6);
+            transform: scale(1.05);
+            /* Slight hover grow */
+        }
+
+        #noBtn {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            min-width: 120px;
+        }
+
+        #noBtn:hover {
+            box-shadow: 0 8px 25px rgba(255, 75, 43, 0.6);
+        }
+
+        /* Success & Gif */
+        .success-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-msg {
+            font-size: 2rem;
+            color: #2d3436;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .success-msg span {
+            color: #ff6b6b;
+            font-weight: 900;
+        }
+
+        .gif-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 100%;
+            width: 300px;
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Background Shapes -->
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container" id="mainContainer">
+        <div id="content">
+            <h1 id="question">هل أنت كيوت؟ ✨</h1>
+            <div class="buttons">
+                <button id="yesBtn">نعم</button>
+                <button id="noBtn">لا</button>
+            </div>
+        </div>
+
+        <div id="result" class="success-content">
+            <div class="success-msg">
+                🎉 عرفت ذلك! <br>
+                <span>أنت ألطف شخص في الكون!</span> ❤️
+            </div>
+            <div class="gif-container">
+                <!-- Cute cat gif placeholder -->
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2Q5Z2g1a2w1emZ4NmZ2aGZ3bGR4ZmZ4NmZ2aGZ3bGR4ZmZ4NmZ2aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif"
+                    alt="Cute Cat">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const content = document.getElementById('content');
+        const result = document.getElementById('result');
+        const question = document.getElementById('question');
+
+        // Array of texts to cycle through for the No button
+        const noTexts = [
+            "لا",
+            "متأكد؟",
+            "فكر تاني",
+            "لا بجد؟",
+            "يا شيخ",
+            "حرام عليك",
+            "بزعل منك",
+            "خلاص بجد",
+            "آخر فرصة",
+            "ما يصير",
+            "دوس نعم 😡",
+            "💔"
+        ];
+
+        let scale = 1;
+        let fontSize = 1.5;
+        let clickCount = 0;
+
+        // "No" Interaction
+        noBtn.addEventListener('click', () => {
+            clickCount++;
+
+            // Logic 1: Make Yes button bigger
+            scale += 0.3;
+            fontSize += 0.2;
+
+            yesBtn.style.transform = `scale(${scale})`;
+            // We only need to potentially adjust font size if scale isn't enough, 
+            // but transform scale is smoother. Let's keep font static base and just scale.
+
+            // Logic 2: Change No button text
+            if (clickCount < noTexts.length) {
+                noBtn.textContent = noTexts[clickCount];
+            } else {
+                noBtn.textContent = noTexts[noTexts.length - 1]; // Stuck at last one
+            }
+
+            // Logic 3: Slightly move/shake No button or make No button smaller
+            const randomX = (Math.random() - 0.5) * 50;
+            const randomY = (Math.random() - 0.5) * 50;
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        });
+
+        // "Yes" Interaction
+        yesBtn.addEventListener('click', () => {
+            // Hide Question, Show Result
+            document.getElementById('content').style.display = 'none';
+            result.style.display = 'flex';
+
+            // Trigger Confetti using the library
+            launchConfetti();
+        });
+
+        function launchConfetti() {
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function () {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                // since particles fall down, start a bit higher than random
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+    </script>
+</body>
+
+</html>
